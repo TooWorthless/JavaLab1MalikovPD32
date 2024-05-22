@@ -5,6 +5,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        PurchaseHistory history = new PurchaseHistory();
+        int purchaseCounter = 1;
+
+
         // System.out.println("\nCategories:");
         Category myCategory1 = new Category(1, "Category1Title");
         Category myCategory2 = new Category(2, "Category2Title");
@@ -66,6 +70,7 @@ public class Main {
             System.out.println("2 - Додати товар до кошика");
             System.out.println("3 - Переглянути кошик");
             System.out.println("4 - Зробити замовлення");
+            System.out.println("5 - Історія замовлень");
             System.out.println("0 - Вийти");
 
             int choice = scanner.nextInt();
@@ -92,8 +97,23 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.println("\n");
+                    System.out.println("\n________________");
                     myCart.printProducts();
+                    System.out.println("\n________________");
+                    System.out.println("1 - Видалити товар за ID");
+                    System.out.println("2 - Вийти з кошика");
+                    int cartAction = scanner.nextInt();
+
+                    if(cartAction == 1) {
+                        System.out.println("Введіть ID товару для видалення:");
+                        int productToDeleteId = scanner.nextInt();
+                        myCart.delProduct(productToDeleteId);
+                        System.out.println("Товар видалено");
+                    }
+                    else if(cartAction == 2) {
+                        continue;
+                    }
+
                     break;
 
                 case 4:
@@ -102,8 +122,16 @@ public class Main {
                     }
                     else {
                         System.out.println("Замовлення оформленно!)");
+                        history.addPurchase(
+                            new Purchase(purchaseCounter, myCart.getProducts(), myCart.getTotalPrice())
+                        );
                         myCart.clear();
                     }
+                    break;
+
+                case 5:
+                    System.out.println("Історія замовлень:");
+                    history.printPurchases();
                     break;
 
                 case 0:
